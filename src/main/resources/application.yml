@@ -1,4 +1,6 @@
 spring:
+  env:
+    baseUrl: http://localhost:3000
   application:
     name: shorter
   datasource:
@@ -17,3 +19,6 @@ spring:
         path: /h2-console
         settings.trace: false
         settings.web-allow-others: false
+    flyway:
+      enabled: true
+      locations: classpath:db/migration/structure, classpath:db/migration/data
