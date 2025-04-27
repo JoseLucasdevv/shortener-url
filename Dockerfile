@@ -7,9 +7,9 @@ RUN ./mvnw dependency:go-offline --batch-mode
 COPY src ./src
 RUN mvn package -DskipTests --batch-mode
 
-FROM eclipse-temurin:17-jre
+FROM gcr.io/distroless/java21-debian12
 WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar
 
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=80.0", "-jar", "/app/app.jar"]
