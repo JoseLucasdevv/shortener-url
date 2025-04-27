@@ -22,7 +22,7 @@ public class URLService {
     }
 
     public UrlResponse save(String url){        
-        String randomCode = GenerateRandomToken.Build();
+        String randomCode = GenerateRandomToken.build();
         String newUrl = baseurl + "?token=" + randomCode;
 
         URL urlDomain = new URL();
