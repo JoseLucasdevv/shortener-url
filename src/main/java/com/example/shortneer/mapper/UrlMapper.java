@@ -5,7 +5,7 @@ import com.example.shortneer.http.response.UrlResponse;
 
 public class UrlMapper {
 
-    
+    private UrlMapper(){}
 
     public static UrlResponse urlToUrlResponse(URL url){
 
