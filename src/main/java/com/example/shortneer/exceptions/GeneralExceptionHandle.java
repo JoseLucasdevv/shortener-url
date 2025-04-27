@@ -17,7 +17,7 @@ import java.util.Map;
 public class GeneralExceptionHandle {
     Map<String,Object> response = new LinkedHashMap<>();
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String,Object>> HandleUrlValidationException(MethodArgumentNotValidException ex){
+    public ResponseEntity<Map<String,Object>> handleUrlValidationException(MethodArgumentNotValidException ex){
         List<ObjectError> listError = ex.getAllErrors();
         String messageError = listError.get(0).getDefaultMessage();
         response.put("time-stamp", LocalDateTime.now());
@@ -27,5 +27,35 @@ public class GeneralExceptionHandle {
 
 
         return ResponseEntity.badRequest().body(response);
+    }
+        @ExceptionHandler(ParameterException.class)
+    public ResponseEntity<Map<String,Object>> handleRequestParameterException(ParameterException ex){
+        
+        response.put("time-stamp", LocalDateTime.now());
+        response.put("status",HttpStatus.BAD_REQUEST.value());
+        response.put("error","Validation Request Parameter exception");
+        response.put("message",ex.getMessage());
+
+
+        return ResponseEntity.badRequest().body(response);
+    }
+
+    @ExceptionHandler(InternalErrorException.class)
+    public ResponseEntity<Map<String,Object>> handleInternalErrorException(InternalErrorException ex){
+        
+        response.put("time-stamp", LocalDateTime.now());
+        response.put("status",HttpStatus.INTERNAL_SERVER_ERROR.value());
+        response.put("error","Internal Server Error");
+        response.put("message",ex.getMessage());
+        return ResponseEntity.internalServerError().body(response);
+    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String,Object>> customException(Exception ex){
+        
+        response.put("time-stamp", LocalDateTime.now());
+        response.put("status",ex.getStatus().value());
+        response.put("error","Internal Server Error");
+        response.put("message",ex.getMessage());
+        return new ResponseEntity<>(response,ex.getStatus());
     }
 }
