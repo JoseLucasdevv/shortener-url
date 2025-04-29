@@ -28,18 +28,6 @@ public class GeneralExceptionHandle {
 
         return ResponseEntity.badRequest().body(response);
     }
-        @ExceptionHandler(ParameterException.class)
-    public ResponseEntity<Map<String,Object>> handleRequestParameterException(ParameterException ex){
-        
-        response.put("time-stamp", LocalDateTime.now());
-        response.put("status",HttpStatus.BAD_REQUEST.value());
-        response.put("error","Validation Request Parameter exception");
-        response.put("message",ex.getMessage());
-
-
-        return ResponseEntity.badRequest().body(response);
-    }
-
     @ExceptionHandler(InternalErrorException.class)
     public ResponseEntity<Map<String,Object>> handleInternalErrorException(InternalErrorException ex){
         

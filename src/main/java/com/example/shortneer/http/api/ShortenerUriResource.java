@@ -1,6 +1,5 @@
 package com.example.shortneer.http.api;
 
-import com.example.shortneer.exceptions.ParameterException;
 import com.example.shortneer.http.request.UrlRequest;
 import com.example.shortneer.http.response.UrlResponse;
 import com.example.shortneer.service.URLService;
@@ -9,7 +8,6 @@ import jakarta.validation.Valid;
 
 import java.net.URI;
 
-import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
