@@ -37,11 +37,9 @@ public ShortenerUriResource(URLService urlService){
 
 
     @GetMapping("shortener/{shortUrl}")
-    public ModelAndView redirect(@PathVariable Optional<String> shortUrl, HttpServletResponse httpServletResponse){
+    public ModelAndView redirect(@PathVariable String shortUrl, HttpServletResponse httpServletResponse){
 
-            if(!shortUrl.isPresent()) throw new ParameterException("Invalid Parameter");
-
-            String response = this.urlService.verifyShortenerUrl(shortUrl.get());
+            String response = this.urlService.verifyShortenerUrl(shortUrl);
 
         return new ModelAndView("redirect:" + httpServletResponse.encodeRedirectURL(response));
     }

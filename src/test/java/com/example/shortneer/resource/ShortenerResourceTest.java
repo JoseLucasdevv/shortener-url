@@ -54,22 +54,21 @@ class ShortenerResourceTest {
 
     @Test
   void testShortenerGetEndpointFailCase() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get(this.uriTemplate))
+    mockMvc.perform(MockMvcRequestBuilders.get(this.uriTemplate + "/1212121"))
        .andExpect(MockMvcResultMatchers.status()
-       .isBadRequest())
+       .isNotFound())
        .andExpect(MockMvcResultMatchers.content()
        .contentType("application/json"))
        .andExpect(MockMvcResultMatchers
        .jsonPath("message")
-       .value("Invalid Parameter"))
+       .value("we couldn't find this shortUrl"))
        .andReturn();
   }
 
   @Test
   void testShortenerGetEndpointSuccessCase() throws Exception {
     
-    UrlResponse response = this.urlService.save("https://google.com");
-    
+    UrlResponse response = this.urlService.save("https://www.google.com");
     
     mockMvc.perform(MockMvcRequestBuilders.get(response.shortUrl()))
        .andExpect(MockMvcResultMatchers.status()
