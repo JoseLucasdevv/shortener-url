@@ -5,7 +5,7 @@ COPY mvnw .
 COPY .mvn/ .mvn/
 RUN ./mvnw dependency:go-offline --batch-mode
 COPY src ./src
-RUN mvn package -DskipTests --batch-mode
+RUN mvn package
 
 FROM gcr.io/distroless/java21-debian12
 WORKDIR /app
