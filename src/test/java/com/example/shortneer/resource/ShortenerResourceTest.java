@@ -17,7 +17,7 @@ import com.example.shortneer.service.URLService;
 @SpringBootTest
 @AutoConfigureMockMvc
 class ShortenerResourceTest {
-
+    String uriTemplate = "http://localhost:8080/api/v1/shortener";
     @Autowired
     private MockMvc mockMvc;
     @Mock
@@ -30,7 +30,7 @@ class ShortenerResourceTest {
   void testShortenerPostEndpointFailCase() throws Exception {
     String json = "{\"url\":\"htt\"}";
     
-    mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/api/v1/shortener")
+    mockMvc.perform(MockMvcRequestBuilders.post(this.uriTemplate)
     .contentType("application/json;charset=UTF-8")
     .content(json))
     .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -43,7 +43,7 @@ class ShortenerResourceTest {
   void testShortenerPostEndpointSuccessCase() throws Exception {
     String json = "{\"url\":\"http:www.google.com\"}";
     
-    mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/api/v1/shortener")
+    mockMvc.perform(MockMvcRequestBuilders.post(this.uriTemplate)
     .contentType("application/json;charset=UTF-8")
     .content(json))
     .andExpect(MockMvcResultMatchers.status().isCreated())
@@ -54,7 +54,7 @@ class ShortenerResourceTest {
 
     @Test
   void testShortenerGetEndpointFailCase() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/api/v1/shortener"))
+    mockMvc.perform(MockMvcRequestBuilders.get(this.uriTemplate))
        .andExpect(MockMvcResultMatchers.status()
        .isBadRequest())
        .andExpect(MockMvcResultMatchers.content()

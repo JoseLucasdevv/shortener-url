@@ -25,7 +25,7 @@ class URLRepositoryTest {
     URL url = new URL();
 
 @BeforeEach
-public void setUp() {
+void setUp() {
     
     this.url.setExpiresAt(LocalDateTime.now());
     this.url.setOriginalUrl("https:w");
@@ -36,13 +36,13 @@ public void setUp() {
    
     
 @Test
-void findByShortUrlSuccessTest() throws Exception {
+void findByShortUrlSuccessTest() throws RuntimeException {
         boolean flag = this.urlRepository.findByShortUrl(url.getShortUrl()).isPresent();
         assertEquals(true, flag);
     
   }
   @Test
-void findByShortUrlFailTest() throws Exception {
+void findByShortUrlFailTest() throws RuntimeException {
         boolean flag = this.urlRepository.findByShortUrl("http:tt.com/xaz").isPresent();
         assertEquals(false, flag);
     
