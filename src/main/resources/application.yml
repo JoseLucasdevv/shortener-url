@@ -1,8 +1,6 @@
 spring:
-  env:
-    baseUrl: http://localhost:8080/api/v1/shortener
   application:
-    name: shorter
+    name: shorterner
   datasource:
     url: jdbc:h2:mem:shortener-db
     username: sa
@@ -22,3 +20,14 @@ spring:
     flyway:
       enabled: true
       locations: classpath:db/migration/structure, classpath:db/migration/data
+  env:
+    baseUrl: http://localhost:8080/api/v1/shortener
+
+springdoc:
+  api-docs:
+   path: /api-docs
+   version: OPENAPI_3_0
+  swagger-ui:
+    operationsSorter: alpha
+    path: /documentation.html
+    
