@@ -23,7 +23,7 @@ public class URLService {
 
     public UrlResponse save(String url){        
         String randomCode = GenerateRandomToken.build();
-        String newUrl = baseurl + "?token=" + randomCode;
+        String newUrl = baseurl + "/" + randomCode;
 
         URL urlDomain = new URL();
 
@@ -38,7 +38,7 @@ public class URLService {
     }
 
     public String verifyShortenerUrl(String shortUrl){
-        String newUrl = baseurl + "?token=" + shortUrl;
+        String newUrl = baseurl + "/" + shortUrl;
         URL url = this.urlRepository.findByShortUrl(newUrl).orElseThrow(() -> new Exception("we couldn't find this shortUrl",HttpStatus.NOT_FOUND));
 
         if(url.getExpiresAt().isBefore(LocalDateTime.now())) throw new Exception("shortUrl was expired.", HttpStatus.BAD_REQUEST);

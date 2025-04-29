@@ -36,8 +36,8 @@ public ShortenerUriResource(URLService urlService){
     }
 
 
-    @GetMapping("shortener")
-    public ModelAndView redirect(@RequestParam(name = "token" , required = false) Optional<String> shortUrl, HttpServletResponse httpServletResponse){
+    @GetMapping("shortener/{shortUrl}")
+    public ModelAndView redirect(@PathVariable Optional<String> shortUrl, HttpServletResponse httpServletResponse){
 
             if(!shortUrl.isPresent()) throw new ParameterException("Invalid Parameter");
 
