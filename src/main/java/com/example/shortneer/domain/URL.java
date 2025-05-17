@@ -1,11 +1,13 @@
 package com.example.shortneer.domain;
 
 import jakarta.persistence.*;
+import org.springframework.hateoas.RepresentationModel;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-public class URL {
+public class URL extends RepresentationModel<URL> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
