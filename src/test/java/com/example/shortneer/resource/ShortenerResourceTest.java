@@ -6,6 +6,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -67,10 +68,10 @@ class ShortenerResourceTest {
 
   @Test
   void testShortenerGetEndpointSuccessCase() throws Exception {
+
+      EntityModel<UrlResponse> response = this.urlService.save("https://www.google.com");
     
-    UrlResponse response = this.urlService.save("https://www.google.com");
-    
-    mockMvc.perform(MockMvcRequestBuilders.get(response.shortUrl()))
+    mockMvc.perform(MockMvcRequestBuilders.get(response.getContent().shortUrl()))
        .andExpect(MockMvcResultMatchers.status()
        .isFound());
   }
