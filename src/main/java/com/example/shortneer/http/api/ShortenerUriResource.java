@@ -9,6 +9,8 @@ import jakarta.validation.Valid;
 import java.net.URI;
 
 
+import org.springframework.hateoas.EntityModel;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,12 +27,13 @@ public ShortenerUriResource(URLService urlService){
     this.urlService = urlService;
 }
 
-    @PostMapping("shortener")
-    public ResponseEntity<UrlResponse> create(@RequestBody @Valid UrlRequest urlRequest){
-        UrlResponse response = this.urlService.save(urlRequest.url());
+    @PostMapping(value = "shortener",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_YAML_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_YAML_VALUE})
+    public ResponseEntity<EntityModel<UrlResponse>> create(@RequestBody @Valid UrlRequest urlRequest){
+        EntityModel<UrlResponse> response = this.urlService.save(urlRequest.url());
         URI location = URI.create("http://localhost");
         return ResponseEntity.created(location).body(response);
-
     }
 
 
