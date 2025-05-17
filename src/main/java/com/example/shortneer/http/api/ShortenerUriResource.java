@@ -6,6 +6,7 @@ import com.example.shortneer.service.URLService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
+import java.io.IOException;
 import java.net.URI;
 
 
@@ -38,11 +39,16 @@ public ShortenerUriResource(URLService urlService){
 
 
     @GetMapping("shortener/{shortUrl}")
-    public ModelAndView redirect(@PathVariable String shortUrl, HttpServletResponse httpServletResponse){
+    public ResponseEntity<Void> redirect(@PathVariable String shortUrl, HttpServletResponse httpServletResponse){
 
             String response = this.urlService.verifyShortenerUrl(shortUrl);
-
-        return new ModelAndView("redirect:" + httpServletResponse.encodeRedirectURL(response));
+            String urlEncoded = httpServletResponse.encodeRedirectURL(response);
+            try{
+                httpServletResponse.sendRedirect(urlEncoded);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        return ResponseEntity.status(302).build();
     }
 
 }

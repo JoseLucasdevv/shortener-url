@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import com.example.shortneer.http.api.ShortenerUriResource;
 import com.example.shortneer.http.request.UrlRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
@@ -21,6 +23,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 public class URLService {
 
+    private static final Logger log = LoggerFactory.getLogger(URLService.class);
     @Value("${spring.env.baseUrl}")
     private String baseurl;
     private final URLRepository urlRepository;
@@ -44,7 +47,7 @@ public class URLService {
 
         EntityModel<UrlResponse> model = EntityModel.of(response);
         model.add(linkTo(methodOn(ShortenerUriResource.class).create(new UrlRequest(url))).withSelfRel().withType("POST"));
-        model.add(linkTo(methodOn(ShortenerUriResource.class).redirect(urlDomain.getShortUrl().substring(urlDomain.getShortUrl().length() - 5 ,urlDomain.getShortUrl().length() ),null)).withSelfRel().withType("GET"));
+        model.add(linkTo(methodOn(ShortenerUriResource.class).redirect(urlDomain.getShortUrl().substring(urlDomain.getShortUrl().length() - 6 ,urlDomain.getShortUrl().length() ),null)).withSelfRel().withType("GET"));
 
         return model;
         
@@ -52,11 +55,12 @@ public class URLService {
 
     public String verifyShortenerUrl(String shortUrl){
         String newUrl = baseurl + "/" + shortUrl;
+        log.info("newUrl: {}",newUrl);
         URL url = this.urlRepository.findByShortUrl(newUrl).orElseThrow(() -> new Exception("we couldn't find this shortUrl",HttpStatus.NOT_FOUND));
 
         if(url.getExpiresAt().isBefore(LocalDateTime.now())) throw new Exception("shortUrl was expired.", HttpStatus.BAD_REQUEST);
 
-        
+        log.info("originalUrl: {}",url.getOriginalUrl());
 
         return url.getOriginalUrl();
     }
